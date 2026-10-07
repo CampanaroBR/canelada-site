@@ -500,7 +500,7 @@ const hotEl = $('#hotspots'), heroBgImg = $('.hero-bg img');
 const hots = HOT.map(([slug, ix, iy]) => {
   const c = CHARS.find(k => k[2] === slug); const el = document.createElement('i'); el.className = 'hs'; el.dataset.hover = '';
   el.addEventListener('pointerenter', e => { squadTip.querySelector('b').textContent = lang === 'pt' ? c[4] : c[5]; squadTip.querySelector('span').textContent = lang === 'pt' ? c[6] : c[7]; squadTip.classList.add('on'); });
-  el.addEventListener('pointermove', e => { squadTip.style.transform = `translate(${e.clientX}px,${e.clientY - 22}px) translate(-50%,-100%)`; });
+  el.addEventListener('pointermove', e => { const hw = squadTip.offsetWidth / 2 + 12, x = clamp(e.clientX, hw, innerWidth - hw); squadTip.style.transform = `translate(${x}px,${e.clientY - 22}px) translate(-50%,-100%)`; });
   el.addEventListener('pointerleave', () => squadTip.classList.remove('on'));
   hotEl.appendChild(el); return { el, ix, iy };
 });
@@ -920,7 +920,7 @@ onReady(async () => {
     .from('.cap', { y: -30, opacity: 0, duration: 1, ease: 'expo.out', stagger: .1, onComplete: placeLangPill }, .3)
     .from('.hero-copy > *', { y: 40, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: .09, clearProps: 'opacity,transform' }, .35)
     .to(intro, { floats: 1, duration: 1.6, ease: 'power2.out' }, .9)
-    .add(() => { $('#hotspots').classList.add('hint'); setTimeout(() => $('#hotspots').classList.remove('hint'), 3200); }, 1.2);
+    .add(() => $('#hotspots').classList.add('hint'), 1.2);
 });
 
 window.__cnl = { SEC, go: v => lenis ? lenis.scrollTo(v * innerHeight, { immediate: true }) : scrollTo(0, v * innerHeight), lang: l => applyLang(l, false) };

@@ -894,3 +894,17 @@ body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,r
   radial-gradient(120% 70% at 50% 30%,transparent 50%,rgba(9,9,9,.35) 100%),
   linear-gradient(180deg,rgba(9,9,9,.34) 0%,rgba(9,9,9,.3) 42%,transparent 62%)!important}
 body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,rgba(9,9,9,.35) 30%,rgba(9,9,9,.1) 55%,rgba(9,9,9,.65) 85%,var(--bg) 100%)!important}
+
+/* hero: bolinhas verdes fixas em cada personagem (mostram que dá pra passar o mouse); somem só no hover, quando abre o cartão */
+.hs::after{width:12px;height:12px;margin:-6px 0 0 -6px;border:2px solid rgba(9,9,9,.75);box-sizing:border-box}
+.hotspots.hint .hs::after{opacity:1}
+.hotspots.hint .hs:hover::after{opacity:0}
+@media (prefers-reduced-motion:reduce){.hs::after{animation:none}}
+
+/* cartão do personagem no hero: vidro escuro (o desfoque continua), texto maior e quase branco para ler sobre qualquer parte da foto */
+.squad-tip.glass{padding:14px 18px 15px;max-width:320px;border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,.12) 0%,rgba(255,255,255,.03) 45%,rgba(255,255,255,.02) 100%),rgba(10,12,11,.58)!important;
+  backdrop-filter:blur(22px) saturate(160%) brightness(.8);-webkit-backdrop-filter:blur(22px) saturate(160%) brightness(.8);
+  border:1px solid rgba(255,255,255,.14)}
+.squad-tip b{font-size:19px;color:#fff;letter-spacing:.005em}
+.squad-tip span{font-size:15px!important;line-height:1.45!important;font-weight:500;color:rgba(255,255,255,.92)!important;margin-top:4px!important;text-shadow:0 1px 2px rgba(0,0,0,.35)}
