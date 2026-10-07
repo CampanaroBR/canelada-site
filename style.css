@@ -890,7 +890,7 @@ body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,r
 
 /* hero: capa escura por cima da foto, para a imagem não gritar e o texto respirar (o degradê continua por cima) */
 .hero-shade{background:
-  linear-gradient(180deg,rgba(9,9,9,.85) 0%,rgba(9,9,9,.5) 24%,rgba(9,9,9,.12) 50%,transparent 70%,rgba(9,9,9,.75) 100%),
-  radial-gradient(120% 90% at 50% 60%,transparent 55%,rgba(9,9,9,.45) 100%),
-  rgba(9,9,9,.34)!important}
+  linear-gradient(180deg,rgba(9,9,9,.85) 0%,rgba(9,9,9,.5) 24%,rgba(9,9,9,.12) 50%,transparent 66%,transparent 88%,rgba(9,9,9,.6) 100%),
+  radial-gradient(120% 70% at 50% 30%,transparent 50%,rgba(9,9,9,.35) 100%),
+  linear-gradient(180deg,rgba(9,9,9,.34) 0%,rgba(9,9,9,.3) 42%,transparent 62%)!important}
 body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,rgba(9,9,9,.35) 30%,rgba(9,9,9,.1) 55%,rgba(9,9,9,.65) 85%,var(--bg) 100%)!important}
