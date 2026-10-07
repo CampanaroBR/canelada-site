@@ -908,3 +908,11 @@ body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,r
   border:1px solid rgba(255,255,255,.14)}
 .squad-tip b{font-size:19px;color:#fff;letter-spacing:.005em}
 .squad-tip span{font-size:15px!important;line-height:1.45!important;font-weight:500;color:rgba(255,255,255,.92)!important;margin-top:4px!important;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+
+/* timeline: o círculo do número fica sempre sólido por cima da linha; só o texto do passo esmaece */
+.step,.step.on,.step.done{opacity:1!important}
+.step>:not(.st-n){opacity:.42;transition:opacity .5s}
+.step.done>:not(.st-n){opacity:.6}
+.step.on>:not(.st-n){opacity:1}
+.st-n{z-index:2;background:#121212}
+.step:not(.on):not(.done) .st-n{color:rgba(255,255,255,.55)}
