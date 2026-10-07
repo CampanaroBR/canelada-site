@@ -461,7 +461,7 @@ function tagLabel(el) {
 }
 function setTag(el) {
   if (!TAG) return; tagEl = el; const t = tagLabel(el); if (t === tagKey) return; tagKey = t; cTagT.textContent = t;
-  if (!reduceMotion) gsap.fromTo(cTag, { scale: .7 }, { scale: 1, duration: .45, ease: 'back.out(3)' });
+  if (!reduceMotion) gsap.fromTo(cTagT, { scale: .7 }, { scale: 1, duration: .45, ease: 'back.out(3)', transformOrigin: '0 0' });
 }
 if (TAG) {
   document.documentElement.classList.add('cur-tag');
