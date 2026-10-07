@@ -446,8 +446,8 @@ addEventListener('pointermove', e => {
   if (tip.classList.contains('on')) tip.style.transform = `translate(${e.clientX + 18}px,${e.clientY + 18}px)`;
 }, { passive: true });
 const cursor = $('.cursor'), cDot = $('.c-dot'), cRing = $('.c-ring'), ringPos = { x: mouse.px, y: mouse.py };
-// prévia do cursor etiqueta: a seta fica exata no ponteiro; a etiqueta segue com atraso, inclina com a velocidade e troca o texto pelo alvo
-const TAG = new URLSearchParams(location.search).get('cursor') === 'tag' && hoverDevice;
+// cursor etiqueta (padrão; ?cursor=antigo volta o anel): a seta fica exata no ponteiro; a etiqueta segue com atraso, inclina com a velocidade e troca o texto pelo alvo
+const TAG = hoverDevice && new URLSearchParams(location.search).get('cursor') !== 'antigo';
 const cArrow = $('.c-arrow'), cTag = $('.c-tag'), cTagT = $('.c-tag-t'), tagPos = { x: mouse.px, y: mouse.py, r: 0 };
 let tagKey = '', tagEl = null;
 function tagLabel(el) {
@@ -461,7 +461,7 @@ function tagLabel(el) {
 }
 function setTag(el) {
   if (!TAG) return; tagEl = el; const t = tagLabel(el); if (t === tagKey) return; tagKey = t; cTagT.textContent = t;
-  gsap.fromTo(cTag, { scale: .7 }, { scale: 1, duration: .45, ease: 'back.out(3)' });
+  if (!reduceMotion) gsap.fromTo(cTag, { scale: .7 }, { scale: 1, duration: .45, ease: 'back.out(3)' });
 }
 if (TAG) {
   document.documentElement.classList.add('cur-tag');
@@ -829,7 +829,7 @@ function frame(now) {
     cDot.style.transform = `translate3d(${mouse.px}px,${mouse.py}px,0)`; cRing.style.transform = `translate3d(${ringPos.x}px,${ringPos.y}px,0)`;
     if (TAG) {
       const px = tagPos.x; tagPos.x = damp(tagPos.x, mouse.px, 16, dt); tagPos.y = damp(tagPos.y, mouse.py, 16, dt);
-      tagPos.r = damp(tagPos.r, clamp((tagPos.x - px) * 1.4, -14, 14), 10, dt);
+      tagPos.r = reduceMotion ? 0 : damp(tagPos.r, clamp((tagPos.x - px) * 1.4, -14, 14), 10, dt);
       cArrow.style.transform = `translate3d(${mouse.px}px,${mouse.py}px,0)`;
       cTag.style.transform = `translate3d(${tagPos.x + 16}px,${tagPos.y + 22}px,0) rotate(${tagPos.r}deg)`;
     }

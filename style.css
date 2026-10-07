@@ -858,7 +858,7 @@ body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,r
 .gcap p{line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 @media (max-width:640px){.gcap{height:96px}}
 
-/* cursor etiqueta (prévia: ?cursor=tag): seta verde com a etiqueta "Você", que muda conforme o alvo */
+/* cursor etiqueta (padrão): seta verde com a etiqueta "Você", que muda conforme o alvo */
 .c-arrow,.c-tag{display:none;position:fixed;left:0;top:0;will-change:transform}
 .cur-tag .c-dot,.cur-tag .c-ring{display:none!important}
 .cur-tag .c-arrow{display:block;width:22px;height:24px;margin:-2px 0 0 -3px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45))}
