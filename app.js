@@ -137,6 +137,8 @@ function updateShows(s) {
       it.words.forEach((w, k) => {
         const pi = smooth(clamp(vin * (1 + n * .08) - k * .08)), po = smooth(clamp(vout * (1 + n * .05) - k * .05));
         w.style.transform = `translate3d(0,${po > 0 ? -po * 112 : (1 - pi) * 112}%,0)`;
+        // a máscara da palavra só existe durante a entrada/saída; parada, ela some para não cortar a sombra do texto em retângulos
+        const settled = pi > .97 && po < .03; if (w._s !== settled) { w._s = settled; w.parentNode.style.overflow = settled ? 'visible' : ''; }
       });
       it.el.style.visibility = vin > 0 && vout < 1 ? 'visible' : 'hidden';
     } else {
