@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Canelada — O baba virou resenha</title>
+<meta name="description" content="Canelada: o app do seu baba. Vote nos personagens da rodada, suba no ranking e desbloqueie medalhas. Só por convite.">
+<meta name="theme-color" content="#090909">
+<meta property="og:title" content="Canelada — O baba virou resenha">
+<meta property="og:description" content="Vote, zoe e suba no ranking. O app do seu baba.">
+<meta property="og:image" content="img/vinyl-1440.webp">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700;800;900&family=Google+Sans:ital,opsz,wght@0,17..18,400..700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/lights-off.webp">
+<link rel="preload" as="image" href="img/lights-on.webp">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+</head>
+<body class="loading">
+
+<div id="loader" aria-hidden="true">
+  <canvas id="ldCanvas"></canvas>
+  <div class="ld-vignette"></div>
+  <div class="ld-center"><img src="img/logo.webp" alt=""><p class="ld-note" data-i18n="loader">Acendendo os refletores</p></div>
+  <div class="ld-count"><span id="count">0</span><sup>%</sup></div>
+  <div class="ld-bar"><i id="loadbar"></i></div>
+  <div class="ld-flash"></div>
+</div>
+
+<div id="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><i class="c-dot"></i><i class="c-ring"><b class="c-text" data-i18n="drag">Arraste</b></i></div>
+
+<header class="nav" id="nav">
+  <div class="cap cap-left glass">
+    <a class="brand" href="#hero" data-hover><img src="img/logo.webp" alt=""><span>Canelada</span></a>
+    <nav class="links" id="links">
+      <i class="link-pill" id="linkPill"></i>
+      <a href="#how" data-hover data-i18n="nav.how">Como funciona</a>
+      <a href="#app" data-hover data-i18n="nav.app">O app</a>
+      <a href="#chars" data-hover data-i18n="nav.chars">Personagens</a>
+      <a href="#medals" data-hover data-i18n="nav.medals">Medalhas</a>
+      <a href="#draw" data-hover data-i18n="nav.draw">Sorteio</a>
+    </nav>
+  </div>
+  <div class="cap cap-right glass">
+    <div class="live" id="live"><i class="live-dot"></i><span class="live-label" id="liveLabel">Votação aberta</span><b class="live-time" id="liveTime">00:00:00</b></div>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button data-lang="pt" class="on" aria-label="Português" data-hover><svg class="flag" viewBox="0 0 28 28" aria-hidden="true"><clipPath id="cbr"><circle cx="14" cy="14" r="14"/></clipPath><g clip-path="url(#cbr)"><rect width="28" height="28" fill="#009b3a"/><path d="M14 4.5 25 14 14 23.5 3 14Z" fill="#fedf00"/><circle cx="14" cy="14" r="5.6" fill="#002776"/><path d="M8.6 13.1c3.6-1.2 7.6-.6 10.9 1.4" stroke="#fff" stroke-width="1" fill="none"/></g></svg><span>PT</span></button>
+      <button data-lang="en" aria-label="English" data-hover><svg class="flag" viewBox="0 0 28 28" aria-hidden="true"><clipPath id="cus"><circle cx="14" cy="14" r="14"/></clipPath><g clip-path="url(#cus)"><rect width="28" height="28" fill="#fff"/><g fill="#b22234"><rect y="0" width="28" height="2.15"/><rect y="4.3" width="28" height="2.15"/><rect y="8.6" width="28" height="2.15"/><rect y="12.9" width="28" height="2.15"/><rect y="17.2" width="28" height="2.15"/><rect y="21.5" width="28" height="2.15"/><rect y="25.8" width="28" height="2.2"/></g><rect width="13" height="15" fill="#3c3b6e"/><g fill="#fff"><circle cx="3" cy="3" r=".8"/><circle cx="6.5" cy="3" r=".8"/><circle cx="10" cy="3" r=".8"/><circle cx="4.7" cy="6" r=".8"/><circle cx="8.2" cy="6" r=".8"/><circle cx="3" cy="9" r=".8"/><circle cx="6.5" cy="9" r=".8"/><circle cx="10" cy="9" r=".8"/><circle cx="4.7" cy="12" r=".8"/><circle cx="8.2" cy="12" r=".8"/></g></g></svg><span>EN</span></button>
+      <i class="lang-pill"></i>
+    </div>
+    <a href="https://canelada.app.br" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-hover data-magnet><span data-i18n="nav.open">Entrar</span></a>
+  </div>
+</header>
+<div class="progress" aria-hidden="true"><i id="progress"></i></div>
+<div class="siderail" aria-hidden="true"><span class="sr-n" id="srN">01</span><i class="sr-line"><b id="srBar"></b></i><span class="sr-t" id="srT">Início</span></div>
+
+<main>
+
+  <!-- 1. HERO -->
+  <section id="hero" class="sec tall" style="--h:220">
+    <div class="sticky hero">
+      <div class="hero-bg"><img src="img/squad-2560.webp" srcset="img/squad-1440.webp 1440w, img/squad-2560.webp 2560w" sizes="100vw" alt="Os personagens do Canelada como bonecos colecionáveis no campo à noite"></div>
+      <div class="hotspots" id="hotspots"></div>
+      <div class="hero-shade" aria-hidden="true"></div>
+
+      <div class="hero-copy">
+        <span class="tag tag-soft" data-show="-2,-1,.08,.35"><i class="pulse"></i><span data-i18n="hero.tag">No ar desde agosto · Salvador</span></span>
+        <h1 data-show="-2,-1,.06,.4" data-split data-i18n="hero.title">O baba virou resenha.</h1>
+        <p class="hero-sub" data-show="-2,-1,.08,.35" data-i18n="hero.sub">Depois do jogo, a galera vota em quem foi o craque, o paredão e o bagre da noite. Os votos viram ranking, medalha e assunto pra semana inteira.</p>
+        <div class="hero-ctas" data-show="-2,-1,.08,.35">
+          <a href="https://canelada.app.br" class="btn btn-primary" target="_blank" rel="noopener" data-hover data-magnet><span data-i18n="hero.cta1">Abrir o Canelada</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="#how" class="btn btn-secondary" data-hover><span data-i18n="hero.cta2">Ver como funciona</span></a>
+        </div>
+      </div>
+
+      <div class="float f-toast" data-depth="1.4">
+        <div class="toast glass"><span class="iconbox ib-brand"><i data-ic="hand"></i></span><div><b data-i18n="frag.toastT">Você foi eleito Paredão</b><small data-i18n="frag.toastD">5 votos · Baba de quarta</small></div></div>
+      </div>
+      <div class="float f-stat" data-depth="1">
+        <div class="card stat-card glass">
+          <div class="stat"><b class="c-brand">90</b><small>OVERALL</small></div>
+          <div class="stat"><b>11</b><small data-i18n="frag.rounds">RODADAS</small></div>
+          <div class="stat"><b class="c-gold">2</b><small>MVPS</small></div>
+        </div>
+      </div>
+      <div class="squad-tip glass" id="squadTip"><b></b><span></span></div>
+
+      <a href="#how" class="scroll-cue" data-show="-2,-1,.02,.2" data-hover><span data-i18n="scroll">Role pra descer</span><i></i></a>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
+
+  <!-- 2. HOW IT WORKS -->
+  <section id="how" class="sec tall" style="--h:420">
+    <div class="sticky how">
+      <div class="how-left">
+        <p class="overline" data-show="-.2,.2,2.95,3.2"><span class="tag tag-outline">01</span> <span data-i18n="how.eyebrow">Como funciona</span></p>
+        <h2 data-show="-.15,.3,2.95,3.25" data-split data-i18n="how.title">Como uma pelada vira campeonato toda segunda e quarta</h2>
+        <ol class="steps" id="steps" data-show="-.05,.35,2.95,3.2">
+          <li class="step" data-step="0"><span class="st-n">01</span><div><span class="st-meta" data-i18n="how.m1">Seg e qua · 20h</span><h3 data-i18n="how.s1t">Joga</h3><p data-i18n="how.s1d">O admin confirma quem apareceu e o app sorteia times equilibrados pelo overall.</p></div><i class="st-bar"><b></b></i></li>
+          <li class="step" data-step="1"><span class="st-n">02</span><div><span class="st-meta" data-i18n="how.m2">Abre 22:30 · fecha 20h</span><h3 data-i18n="how.s2t">Vota</h3><p data-i18n="how.s2d">A votação abre 22:30. Cada um escolhe o personagem de cada jogador, do Categoria ao Bagre da Noite.</p></div><i class="st-bar"><b></b></i></li>
+          <li class="step" data-step="2"><span class="st-n">03</span><div><span class="st-meta" data-i18n="how.m3">Atualiza no fim da votação</span><h3 data-i18n="how.s3t">Sobe no ranking</h3><p data-i18n="how.s3d">Personagem bom vale ponto. O MVP sai sozinho da soma e o ranking nunca desce.</p></div><i class="st-bar"><b></b></i></li>
+        </ol>
+      </div>
+      <div class="how-stage">
+        <div class="glow-ring" aria-hidden="true"></div>
+        <div class="phone" id="howPhone" data-screen="0">
+          <div class="screen">
+            
+            <div class="scr scr-pres scr-real"><img src="img/app/baba.webp" alt="Tela real do app: criar a rodada colando a lista do WhatsApp" loading="lazy"></div>
+            <div class="scr scr-vote scr-real"><img src="img/app/home.webp" alt="Tela real do app: votação da rodada" loading="lazy"></div>
+            <div class="scr scr-rank scr-real"><img src="img/app/perfil.webp" alt="Tela real do app: perfil com overall e estatísticas" loading="lazy"></div>
+            <div class="legacy" hidden>
+            <div class="scr scr-pres">
+              <div class="scr-head"><div><small data-i18n="app.today">Baba de hoje</small><b data-i18n="app.presTitle">Quem jogou?</b></div><span class="tag tag-soft sm"><em id="presN">0</em>/10</span></div>
+              <div class="pbar"><i id="presBar"></i></div>
+              <ul class="rows" id="presList"></ul>
+              <div class="btn btn-primary btn-block disabled" id="presCta"><span data-i18n="app.draw">Sortear times</span></div>
+            </div>
+            <div class="scr scr-vote">
+              <div class="vote-hero" id="voteHero"><img id="voteMascot" src="img/mascots/matador.webp" alt=""></div>
+              <div class="vote-body">
+                <span class="tag tag-soft sm" id="voteTag">FUTEBOL</span>
+                <b class="vote-name" id="voteName">Matador</b>
+                <p class="vote-q" id="voteQ">Quem foi o Matador?</p>
+                <div class="vote-grid" id="voteGrid"></div>
+                <div class="btn btn-primary btn-block disabled" id="voteConfirm"><span data-i18n="app.confirm">Confirmar voto</span></div>
+                <div class="dots" id="voteSteps"><i></i><i></i><i></i></div>
+              </div>
+            </div>
+            <div class="scr scr-rank">
+              <div class="scr-head"><div><small data-i18n="app.season">Temporada 2026</small><b data-i18n="app.rankTitle">Ranking</b></div><span class="tag tag-gold sm"><i data-ic="crown"></i> MVP</span></div>
+              <div class="seg"><b data-i18n="app.general">Geral</b><span data-i18n="app.month">Mês</span><span data-i18n="app.round">Rodada</span></div>
+              <ul class="rank" id="rankList"></ul>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="float-note glass" id="howNote"><span class="iconbox ib-brand sm"><i data-ic="check"></i></span><span id="howNoteTxt"></span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- REAL APP -->
+  <section id="app" class="sec tall" style="--h:360">
+    <div class="sticky appsec">
+      <div class="app-bgword" aria-hidden="true">CANELADA</div>
+      <div class="app-head">
+        <p class="overline" data-show="-.3,.1,2.25,2.5"><span class="tag tag-outline"><i data-ic="sparkle"></i></span> <span data-i18n="app2.eyebrow">O app de verdade</span></p>
+        <h2 data-show="-.25,.2,2.25,2.55" data-split data-i18n="app2.title">Isso aqui já roda num baba de verdade</h2>
+      </div>
+      <div class="gallery" id="gallery">
+        <div class="gphone" data-i="0"><div class="gscreen"><img src="img/app/home.webp" alt="" loading="lazy"></div></div>
+        <div class="gphone" data-i="1"><div class="gscreen"><img src="img/app/semana.webp" alt="" loading="lazy"></div></div>
+        <div class="gphone" data-i="2"><div class="gscreen"><img src="img/app/bagre.webp" alt="" loading="lazy"></div></div>
+        <div class="gphone" data-i="3"><div class="gscreen"><img src="img/app/medalhas.webp" alt="" loading="lazy"></div></div>
+        <div class="gphone" data-i="4"><div class="gscreen"><img src="img/app/perfil.webp" alt="" loading="lazy"></div></div>
+        <div class="gphone" data-i="5"><div class="gscreen"><img src="img/app/baba.webp" alt="" loading="lazy"></div></div>
+      </div>
+      <div class="gcap glass" id="gcap" data-show=".05,.4,2.25,2.5">
+        <span class="gcap-n" id="gcapN">01 / 06</span>
+        <div><b id="gcapT"></b><p id="gcapD"></p></div>
+        <div class="gdots" id="gdots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- STATS (odometer) -->
+  <section id="stats" class="sec stats">
+    <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+    <div class="stats-grid">
+      <div class="odo-item"><div class="odo" data-to="1006" data-sep="."></div><small data-i18n="stats.votes">votos computados</small></div>
+      <div class="odo-item"><div class="odo" data-to="32"></div><small data-i18n="stats.players">jogadores no grupo</small></div>
+      <div class="odo-item"><div class="odo" data-to="19"></div><small data-i18n="stats.chars">personagens</small></div>
+      <div class="odo-item"><div class="odo" data-to="24"></div><small data-i18n="stats.medals">medalhas</small></div>
+    </div>
+    <p class="stats-note" data-i18n="stats.note">Números reais do Baba do grupo de Salvador, desde agosto de 2026.</p>
+  </section>
+
+  <!-- 3. CHARACTERS -->
+  <section id="chars" class="sec chars">
+    <div class="chars-hero">
+      <div class="chars-img"><img src="img/vinyl-2560.webp" srcset="img/vinyl-1440.webp 1440w, img/vinyl-2560.webp 2560w" sizes="100vw" alt="Os personagens do Canelada como bonecos colecionáveis" loading="lazy"></div>
+      <div class="chars-copy">
+        <p class="overline" data-show="-.7,-.4"><span class="tag tag-outline">02</span> <span data-i18n="chars.eyebrow">Personagens</span></p>
+        <h2 data-show="-.65,-.3" data-split data-i18n="chars.title">Quem foi o craque? E quem foi o cone?</h2>
+        <p class="body" data-show="-.55,-.25" data-i18n="chars.body">Tem o craque, o paredão e o garçom. Tem também o cone, o chorão e o bagre da noite. Toda rodada, cada um leva um.</p>
+      </div>
+    </div>
+    <div class="chars-rail">
+      <div class="tabs" role="tablist">
+        <button class="tab on" role="tab" aria-selected="true" data-f="all" data-hover><span data-i18n="chars.all">Todos</span><em>19</em></button>
+        <button class="tab" role="tab" aria-selected="false" data-f="pos" data-hover><i class="dot pos"></i><span data-i18n="chars.pos">Futebol</span><em>8</em></button>
+        <button class="tab" role="tab" aria-selected="false" data-f="soc" data-hover><i class="dot soc"></i><span data-i18n="chars.soc">Resenha</span><em>5</em></button>
+        <button class="tab" role="tab" aria-selected="false" data-f="neg" data-hover><i class="dot neg"></i><span data-i18n="chars.neg">Negativos</span><em>6</em></button>
+      </div>
+      <div class="rail-wrap" id="railWrap"><div class="rail" id="rail"></div></div>
+      <div class="rail-foot"><div class="pbar thin"><i id="railBar"></i></div><span data-i18n="chars.hint">Arraste para o lado</span></div>
+    </div>
+  </section>
+
+  <!-- 4. DUEL -->
+  <section id="duel" class="sec tall" style="--h:240">
+    <div class="sticky duel">
+      <div class="duel-img"><img src="img/duel-2560.webp" srcset="img/duel-1440.webp 1440w, img/duel-2560.webp 2560w" sizes="100vw" alt="" loading="lazy"></div>
+      <div class="duel-shade" aria-hidden="true"></div>
+      <div class="duel-copy">
+        <p class="overline" data-show="-.2,.2,1.05,1.3"><span class="tag tag-outline">03</span> <span data-i18n="duel.eyebrow">Craque e bagre</span></p>
+        <h2 data-show="-.15,.3,1.05,1.35" data-split data-i18n="duel.title">No fim da noite, alguém leva a coroa e alguém leva o peixe</h2>
+      </div>
+      <div class="duel-panel good glass" data-show=".1,.45,1.05,1.3">
+        <div class="dp-head"><span class="tag tag-gold"><i data-ic="crown"></i> <span data-i18n="duel.mvp">MVP da rodada</span></span></div>
+        <div class="dp-who"><i class="av lg" style="background:#ffb547">CJ</i><div><b>Caju</b><small data-i18n="duel.mvpSub">Somou mais pontos que todo mundo</small></div><em class="dp-num"><span id="ptsGood">0</span><small>pts</small></em></div>
+        <ul class="dp-list">
+          <li><span><i data-ic="crown"></i> Categoria</span><b>+4</b></li><li><span><i data-ic="goal"></i> Matador</span><b>+3</b></li><li><span><i data-ic="wine"></i> Garçom</span><b>+3</b></li><li><span><i data-ic="target"></i> <em data-i18n="duel.goal">Gol mais bonito</em></span><b>+1</b></li>
+        </ul>
+      </div>
+      <div class="duel-panel bad glass" data-show=".15,.5,1.05,1.3">
+        <div class="dp-head"><span class="tag tag-bagre"><i data-ic="fish"></i> <span data-i18n="duel.bagre">Bagre da Noite</span></span></div>
+        <div class="dp-who"><i class="av lg" style="background:#7fd3ff">PD</i><div><b>Pedrão</b><small data-i18n="duel.bagreSub">Não tira ponto. Só fica no perfil.</small></div><em class="dp-num"><span id="votesBad">0</span><small data-i18n="duel.votes">votos</small></em></div>
+        <div class="vote-bars" id="voteBars"></div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- 5. MEDALS -->
+  <section id="medals" class="sec medals">
+    <div class="sec-head">
+      <p class="overline" data-show="-.7,-.4"><span class="tag tag-outline">04</span> <span data-i18n="medals.eyebrow">Medalhas</span></p>
+      <h2 data-show="-.65,-.3" data-split data-i18n="medals.title">24 medalhas pra quem aparece, joga bem ou só faz resenha</h2>
+    </div>
+    <div class="bento">
+      <article class="card b-feature spot" data-show="-.55,-.2" data-hover>
+        <div class="bf-art"><img src="img/badges/lenda-do-baba.webp" alt="" loading="lazy"><i class="shine"></i></div>
+        <div class="bf-info">
+          <span class="tag tag-gold"><i data-ic="sparkle"></i> <span data-i18n="frag.legendary">Lendária</span></span>
+          <h3 data-i18n="frag.medal">Lenda do Baba</h3>
+          <p data-i18n="medals.legend">100 rodadas, 5 MVPs e 50 personagens bons. Poucos chegam lá.</p>
+          <div class="prog"><div class="prog-top"><span data-i18n="medals.progress">Seu progresso</span><b><span id="legN">0</span>/100</b></div><div class="pbar"><i id="legBar"></i></div></div>
+        </div>
+      </article>
+      <article class="card b-count spot" data-show="-.5,-.15" data-hover>
+        <small class="overline-s" data-i18n="medals.unlocked">Desbloqueadas</small>
+        <b class="big"><span id="unlockN">0</span><em>/24</em></b>
+        <div class="rarity">
+          <span class="tag tag-neutral" data-i18n="medals.common">Comum</span><span class="tag tag-soft"><i data-ic="sparkle"></i> <span data-i18n="medals.rare">Rara</span></span><span class="tag tag-teal"><i data-ic="sparkle"></i> <span data-i18n="medals.epic">Épica</span></span><span class="tag tag-gold"><i data-ic="sparkle"></i> <span data-i18n="frag.legendary">Lendária</span></span>
+        </div>
+      </article>
+      <article class="card b-bagre spot" data-show="-.45,-.1" data-hover>
+        <img src="img/badges/virada-de-chave.webp" alt="" loading="lazy">
+        <div><span class="tag tag-teal"><i data-ic="key"></i> <span data-i18n="medals.seq">Sequência</span></span><h3 data-i18n="medals.bagreT">Virada de Chave</h3><p data-i18n="medals.bagreD">Foi Bagre numa rodada e craque na seguinte. A melhor resposta é em campo.</p></div>
+      </article>
+      <article class="card b-grid spot" data-show="-.4,-.05">
+        <div class="hexgrid" id="hexgrid"></div>
+      </article>
+    </div>
+
+    <div class="tracks" id="tracks">
+      <p class="overline-s tracks-label" data-i18n="medals.tracks">As cinco trilhas</p>
+    </div>
+    <div class="reveal-float" id="revealFloat" aria-hidden="true"></div>
+    <div class="badge-tip" id="badgeTip"><b></b><span></span></div>
+  </section>
+
+  <!-- 6. DRAW -->
+  <section id="draw" class="sec draw">
+    <div class="sec-head row">
+      <div>
+        <p class="overline" data-show="-.7,-.4"><span class="tag tag-outline">05</span> <span data-i18n="draw.eyebrow">Sorteio</span></p>
+        <h2 data-show="-.65,-.3" data-split data-i18n="draw.title">O sorteio que acabou com a discussão do par ou ímpar</h2>
+      </div>
+      <div class="draw-side" data-show="-.55,-.25">
+        <p class="body" data-i18n="draw.body">O sorteio usa o overall de cada um pra montar dois times parelhos. O Paneleiro que lute.</p>
+        <button class="btn btn-secondary" id="reshuffle" data-hover data-magnet><span><i data-ic="dices"></i> <span data-i18n="draw.again">Sortear de novo</span></span></button>
+      </div>
+    </div>
+    <div class="drawx" id="drawx" data-show="-.5,-.15">
+      <div class="wa">
+        <div class="wa-head"><span class="wa-av"><img src="img/logo.webp" alt=""></span><div><b data-i18n="draw.waGroup">Baba de quarta ⚽</b><small data-i18n="draw.waSub">32 participantes</small></div></div>
+        <div class="wa-msg"><small class="wa-from">Léo</small><p class="wa-list" id="waList"></p><span class="wa-time">19:42</span></div>
+        <div class="wa-arrow" aria-hidden="true"><i data-ic="dices"></i><span data-i18n="draw.paste">Colou a lista, o app escala</span></div>
+      </div>
+      <div class="dright">
+        <div class="eq">
+          <div class="eq-top"><span class="eq-l" data-i18n="draw.balance">Equilíbrio</span><b class="eq-v" id="eqTxt"></b></div>
+          <div class="eq-bar"><i id="eqA"></i><i id="eqB"></i></div>
+        </div>
+        <div class="dpitch" id="dpitch">
+          <svg class="dlines" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="rgba(255,255,255,.42)" stroke-width="3"><rect x="24" y="24" width="952" height="512" rx="10"/><line x1="500" y1="24" x2="500" y2="536"/><circle cx="500" cy="280" r="74"/><circle cx="500" cy="280" r="4" fill="rgba(255,255,255,.6)"/><rect x="24" y="150" width="120" height="260"/><rect x="24" y="215" width="44" height="130"/><rect x="856" y="150" width="120" height="260"/><rect x="932" y="215" width="44" height="130"/><path d="M144 230a60 60 0 0 1 0 100"/><path d="M856 230a60 60 0 0 0 0 100"/></g></svg>
+          <div class="dside a"><i class="tdot" style="background:#ef4444"></i><b data-i18n="draw.teamA">Time Vermelho</b><em id="avg0">0</em></div>
+          <div class="dside b"><em id="avg1">0</em><b data-i18n="draw.teamB">Time Azul</b><i class="tdot" style="background:#3b82f6"></i></div>
+        </div>
+        <div class="teams">
+          <div class="team" data-t="0"><div class="team-h"><i class="tdot" style="background:#ef4444"></i><b data-i18n="draw.teamA">Time Vermelho</b><small data-i18n="draw.avg">Média</small><em class="avgc" data-t="0">0</em></div><ul class="team-l" id="team0"></ul></div>
+          <div class="team" data-t="1"><div class="team-h"><i class="tdot" style="background:#3b82f6"></i><b data-i18n="draw.teamB">Time Azul</b><small data-i18n="draw.avg">Média</small><em class="avgc" data-t="1">0</em></div><ul class="team-l" id="team1"></ul></div>
+        </div>
+      </div>
+      <div class="dstage" id="dstage" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 7. RESENHA -->
+  <section id="resenha" class="sec tall" style="--h:200">
+    <div class="sticky resenha">
+      <div class="res-glow" aria-hidden="true"></div>
+      <div class="res-copy">
+        <p class="overline" data-show="-.2,.15,.8,1.05"><span class="tag tag-outline">06</span> <span data-i18n="res.eyebrow">Resenha</span></p>
+        <h2 data-show="-.15,.25,.8,1.1" data-split data-i18n="res.title">A resenha continua no grupo até a próxima rodada</h2>
+        <p class="body" data-show="0,.35,.8,1.05" data-i18n="res.body">Cada personagem vira um card pronto pro story. E o app avisa todo mundo quando a votação abre e quando sai o resultado.</p>
+      </div>
+      <div class="notifs" id="notifs"></div>
+      <div class="res-phone" id="share"><div class="gscreen"><img src="img/app/bagre.webp" alt="Card de compartilhar do Bagre da Noite no app Canelada" loading="lazy"></div></div>
+      <div class="res-ring" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 8. FINAL -->
+  <section id="final" class="sec final">
+    <div class="final-bg"><img src="img/pitch-1440.webp" alt="" loading="lazy"></div>
+    <a href="https://canelada.app.br" target="_blank" rel="noopener" class="sticker" aria-hidden="true" tabindex="-1" data-hover><svg viewBox="0 0 120 120"><defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#circ" id="stickerTxt">BORA PRO BABA · CANELADA.APP.BR · </textPath></text></svg><img src="img/logo.webp" alt=""></a>
+    <div class="final-wrap">
+      <span class="tag tag-soft" data-show="-.5,-.2"><i class="pulse"></i><span data-i18n="final.tag">Só por convite</span></span>
+      <h2 data-show="-.45,-.1" data-split data-i18n="final.title">Bora pro baba?</h2>
+      <p class="body" data-show="-.35,-.05" data-i18n="final.body">Peça o convite pro admin do seu grupo e entre com a sua conta Google.</p>
+      <a href="https://canelada.app.br" class="btn btn-primary btn-lg" target="_blank" rel="noopener" data-show="-.3,0" data-hover data-magnet><span data-i18n="final.cta">Abrir o Canelada</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="wordmark" aria-hidden="true" id="wordmark"><span>C</span><span>A</span><span>N</span><span>E</span><span>L</span><span>A</span><span>D</span><span>A</span></div>
+    <footer class="foot">
+      <div class="foot-brand"><img src="img/logo.webp" alt=""><span>Canelada</span></div>
+      <span data-i18n-html="foot.credit">Produto, design e código por <a href="https://arthurfonseca.framer.website/" target="_blank" rel="noopener" data-hover>Arthur Fonseca</a> · <a href="https://campanarobr.github.io/canelada/" target="_blank" rel="noopener" data-hover>Design system ↗</a></span>
+      <span data-i18n="foot.note">Jogadores fictícios. Imagens geradas com IA e dirigidas pelo autor.</span>
+    </footer>
+  </section>
+
+</main>
+
+<script src="app.js" type="module"></script>
+</body>
+</html>
