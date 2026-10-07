@@ -458,7 +458,8 @@ function tagLabel(el) {
   if (el.matches('.hs, .hex')) return T('cur.see');
   if (el.matches('a[href^="#"]')) return T('cur.go');
   if (el.matches('a[href^="http"]')) return T('cur.open');
-  return T('cur.click');
+  // só diz "Clique" no que é clicável de verdade; cartão com efeito de hover não conta
+  return el.matches('a, button, [role="button"], [role="tab"], label') ? T('cur.click') : T('cur.you');
 }
 function setTag(el) {
   if (!TAG) return; tagEl = el; const t = tagLabel(el); if (t === tagKey) return; tagKey = t; cTagT.textContent = t;
