@@ -446,6 +446,13 @@ addEventListener('pointermove', e => {
   if (tip.classList.contains('on')) tip.style.transform = `translate(${e.clientX + 18}px,${e.clientY + 18}px)`;
 }, { passive: true });
 const cursor = $('.cursor'), cDot = $('.c-dot'), cRing = $('.c-ring'), ringPos = { x: mouse.px, y: mouse.py };
+// prévia do cursor bola: rola pela distância andada (ângulo = distância / raio), quica no clique
+const BOLA = new URLSearchParams(location.search).get('cursor') === 'bola' && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cBall = $('.c-ball'), cShadow = $('.c-shadow'), cSpin = $('.c-spin'), ball = { x: mouse.px, y: mouse.py, a: 0, hop: 0 };
+if (BOLA) {
+  document.documentElement.classList.add('cur-bola');
+  addEventListener('pointerdown', () => gsap.fromTo(ball, { hop: 0 }, { keyframes: [{ hop: -14, duration: .16, ease: 'power2.out' }, { hop: 0, duration: .42, ease: 'bounce.out' }] }));
+}
 document.addEventListener('pointerover', e => cursor.classList.toggle('hover', !!e.target.closest('[data-hover], .hex')));
 $$('.spot').forEach(el => el.addEventListener('pointermove', e => {
   const r = el.getBoundingClientRect(); el.style.setProperty('--mx', `${e.clientX - r.left}px`); el.style.setProperty('--my', `${e.clientY - r.top}px`);
@@ -804,6 +811,12 @@ function frame(now) {
   if (hoverDevice) {
     ringPos.x = damp(ringPos.x, mouse.px, 14, dt); ringPos.y = damp(ringPos.y, mouse.py, 14, dt);
     cDot.style.transform = `translate3d(${mouse.px}px,${mouse.py}px,0)`; cRing.style.transform = `translate3d(${ringPos.x}px,${ringPos.y}px,0)`;
+    if (BOLA) {
+      const dx = mouse.px - ball.x, dy = mouse.py - ball.y; ball.x = mouse.px; ball.y = mouse.py;
+      ball.a += (Math.abs(dx) > Math.abs(dy) ? dx : dy * Math.sign(dx || 1)) / 11 * 57.3;
+      cBall.style.transform = `translate3d(${ball.x}px,${ball.y + ball.hop}px,0)`; cShadow.style.transform = `translate3d(${ball.x}px,${ball.y}px,0) scale(${1 + ball.hop / 40})`;
+      cSpin.style.transform = `rotate(${ball.a}deg)`;
+    }
   }
   requestAnimationFrame(frame);
 }
