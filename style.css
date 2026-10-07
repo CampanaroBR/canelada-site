@@ -926,3 +926,5 @@ body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,r
 @media (max-width:900px){.dpitch{background-image:url("img/campo-1200.webp")!important}}
 .dpitch .dlines{display:none}
 .dpitch::after{background:radial-gradient(80% 70% at 50% 45%,transparent 60%,rgba(0,0,0,.25))!important}
+/* balão da lista ocupa a largura toda do card (a pontinha continua à esquerda) */
+.wa-bubble{max-width:none;margin-left:6px}
