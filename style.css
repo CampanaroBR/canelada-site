@@ -916,3 +916,7 @@ body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,r
 .step.on>:not(.st-n){opacity:1}
 .st-n{z-index:2;background:#121212}
 .step:not(.on):not(.done) .st-n{color:rgba(255,255,255,.55)}
+
+/* hero: o bloco de texto deixa o mouse passar para os personagens (a águia fica atrás dele); só links e botões capturam */
+.hero-copy{pointer-events:none}
+.hero-copy a,.hero-copy button{pointer-events:auto}
