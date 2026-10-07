@@ -22,7 +22,7 @@ let isMobile = innerWidth <= 760;
    ========================================================= */
 const I18N = {
   pt: {
-    loader: 'Acendendo os refletores', drag: 'Arraste', scroll: 'Role pra descer',
+    loader: 'Acendendo os refletores', drag: 'Arraste', scroll: 'Role pra descer', 'cur.you': 'Você', 'cur.go': 'Ir', 'cur.open': 'Abrir ↗', 'cur.click': 'Clique', 'cur.see': 'Ver', 'cur.enter': 'Entrar', 'cur.play': 'Bora!',
     'nav.how': 'Como funciona', 'nav.app': 'O app', 'nav.chars': 'Personagens', 'nav.medals': 'Medalhas', 'nav.draw': 'Sorteio', 'nav.open': 'Entrar',
     'hero.tag': 'No ar desde agosto · Salvador', 'hero.title': 'O baba virou resenha.',
     'hero.sub': 'Depois do jogo, a galera vota em quem foi o craque, o paredão e o bagre da noite. Os votos viram ranking, medalha e assunto pra semana inteira.',
@@ -66,7 +66,7 @@ const I18N = {
     voteQ: n => `Quem foi o ${n}?`,
   },
   en: {
-    loader: 'Turning on the floodlights', drag: 'Drag', scroll: 'Scroll down',
+    loader: 'Turning on the floodlights', drag: 'Drag', scroll: 'Scroll down', 'cur.you': 'You', 'cur.go': 'Go', 'cur.open': 'Open ↗', 'cur.click': 'Click', 'cur.see': 'See', 'cur.enter': 'Sign in', 'cur.play': 'Let’s go!',
     'nav.how': 'How it works', 'nav.app': 'The app', 'nav.chars': 'Characters', 'nav.medals': 'Medals', 'nav.draw': 'Team draw', 'nav.open': 'Sign in',
     'hero.tag': 'Live since August · Salvador', 'hero.title': 'Pickup football, now with banter.',
     'hero.sub': 'After the game, everyone votes on who was the star, the wall and the catfish of the night. Votes turn into a ranking, medals and a week of jokes.',
@@ -427,7 +427,7 @@ function applyLang(l, animate) {
     $$('[data-i18n-html]').forEach(el => { el.innerHTML = I18N[l][el.dataset.i18nHtml]; });
     hydrateIcons();
     shows.forEach(it => { if (it.split) it.words = splitWords(it.el); it.last = -1; });
-    buildRail(); buildNotifs(); labelStickers(); labelDraw(); buildTracks(); $('#stickerTxt').textContent = T('sticker').repeat(2); voteState.j = -1; noteState = -1; gIdx = -1;
+    buildRail(); buildNotifs(); labelStickers(); labelDraw(); buildTracks(); $('#stickerTxt').textContent = T('sticker').repeat(2); voteState.j = -1; noteState = -1; gIdx = -1; tagKey = ''; setTag(tagEl);
     document.title = l === 'pt' ? 'Canelada — O baba virou resenha' : 'Canelada — Pickup football, now with banter';
   };
   $$('.lang button').forEach(b => b.classList.toggle('on', b.dataset.lang === l));
@@ -446,12 +446,28 @@ addEventListener('pointermove', e => {
   if (tip.classList.contains('on')) tip.style.transform = `translate(${e.clientX + 18}px,${e.clientY + 18}px)`;
 }, { passive: true });
 const cursor = $('.cursor'), cDot = $('.c-dot'), cRing = $('.c-ring'), ringPos = { x: mouse.px, y: mouse.py };
-// prévia do cursor bola: rola pela distância andada (ângulo = distância / raio), quica no clique
-const BOLA = new URLSearchParams(location.search).get('cursor') === 'bola' && !matchMedia('(prefers-reduced-motion: reduce)').matches;
-const cBall = $('.c-ball'), cShadow = $('.c-shadow'), cSpin = $('.c-spin'), ball = { x: mouse.px, y: mouse.py, a: 0, hop: 0 };
-if (BOLA) {
-  document.documentElement.classList.add('cur-bola');
-  addEventListener('pointerdown', () => gsap.fromTo(ball, { hop: 0 }, { keyframes: [{ hop: -14, duration: .16, ease: 'power2.out' }, { hop: 0, duration: .42, ease: 'bounce.out' }] }));
+// prévia do cursor etiqueta: a seta fica exata no ponteiro; a etiqueta segue com atraso, inclina com a velocidade e troca o texto pelo alvo
+const TAG = new URLSearchParams(location.search).get('cursor') === 'tag' && hoverDevice;
+const cArrow = $('.c-arrow'), cTag = $('.c-tag'), cTagT = $('.c-tag-t'), tagPos = { x: mouse.px, y: mouse.py, r: 0 };
+let tagKey = '', tagEl = null;
+function tagLabel(el) {
+  if (cursor.classList.contains('drag')) return '↔ ' + T('drag');
+  if (!el) return T('cur.you');
+  if (el.dataset.cur) return T('cur.' + el.dataset.cur);
+  if (el.matches('.hs, .hex')) return T('cur.see');
+  if (el.matches('a[href^="#"]')) return T('cur.go');
+  if (el.matches('a[href^="http"]')) return T('cur.open');
+  return T('cur.click');
+}
+function setTag(el) {
+  if (!TAG) return; tagEl = el; const t = tagLabel(el); if (t === tagKey) return; tagKey = t; cTagT.textContent = t;
+  gsap.fromTo(cTag, { scale: .7 }, { scale: 1, duration: .45, ease: 'back.out(3)' });
+}
+if (TAG) {
+  document.documentElement.classList.add('cur-tag');
+  document.addEventListener('pointerover', e => setTag(e.target.closest('a, button, [data-hover], .hs, .hex')));
+  addEventListener('pointerdown', () => cursor.classList.add('press')); addEventListener('pointerup', () => cursor.classList.remove('press'));
+  new MutationObserver(() => setTag(tagEl)).observe(cursor, { attributes: true, attributeFilter: ['class'] });
 }
 document.addEventListener('pointerover', e => cursor.classList.toggle('hover', !!e.target.closest('[data-hover], .hex')));
 $$('.spot').forEach(el => el.addEventListener('pointermove', e => {
@@ -811,11 +827,11 @@ function frame(now) {
   if (hoverDevice) {
     ringPos.x = damp(ringPos.x, mouse.px, 14, dt); ringPos.y = damp(ringPos.y, mouse.py, 14, dt);
     cDot.style.transform = `translate3d(${mouse.px}px,${mouse.py}px,0)`; cRing.style.transform = `translate3d(${ringPos.x}px,${ringPos.y}px,0)`;
-    if (BOLA) {
-      const dx = mouse.px - ball.x, dy = mouse.py - ball.y; ball.x = mouse.px; ball.y = mouse.py;
-      ball.a += (Math.abs(dx) > Math.abs(dy) ? dx : dy * Math.sign(dx || 1)) / 11 * 57.3;
-      cBall.style.transform = `translate3d(${ball.x}px,${ball.y + ball.hop}px,0)`; cShadow.style.transform = `translate3d(${ball.x}px,${ball.y}px,0) scale(${1 + ball.hop / 40})`;
-      cSpin.style.transform = `rotate(${ball.a}deg)`;
+    if (TAG) {
+      const px = tagPos.x; tagPos.x = damp(tagPos.x, mouse.px, 16, dt); tagPos.y = damp(tagPos.y, mouse.py, 16, dt);
+      tagPos.r = damp(tagPos.r, clamp((tagPos.x - px) * 1.4, -14, 14), 10, dt);
+      cArrow.style.transform = `translate3d(${mouse.px}px,${mouse.py}px,0)`;
+      cTag.style.transform = `translate3d(${tagPos.x + 16}px,${tagPos.y + 22}px,0) rotate(${tagPos.r}deg)`;
     }
   }
   requestAnimationFrame(frame);

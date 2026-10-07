@@ -31,7 +31,7 @@
 </div>
 
 <div id="grain" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><i class="c-dot"></i><i class="c-ring"><b class="c-text" data-i18n="drag">Arraste</b></i><i class="c-ball"><svg viewBox="0 0 24 24" width="24" height="24"><defs><clipPath id="cbclip"><circle cx="12" cy="12" r="11"/></clipPath><radialGradient id="cbshade" cx=".35" cy=".3" r=".8"><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></radialGradient></defs><circle cx="12" cy="12" r="11" fill="#f4f4f0"/><g class="c-spin" clip-path="url(#cbclip)"><path fill="#111" d="M12.00 8.60 L15.23 10.95 L14.00 14.75 L10.00 14.75 L8.77 10.95Z M12.00 4.20 L9.05 2.06 L10.18 -1.41 L13.82 -1.41 L14.95 2.06Z M19.42 9.59 L20.54 6.12 L24.19 6.12 L25.31 9.59 L22.37 11.73Z M16.58 18.31 L20.23 18.31 L21.36 21.78 L18.41 23.92 L15.46 21.78Z M7.42 18.31 L8.54 21.78 L5.59 23.92 L2.64 21.78 L3.77 18.31Z M4.58 9.59 L1.63 11.73 L-1.31 9.59 L-0.19 6.12 L3.46 6.12Z"/><path fill="none" stroke="#111" stroke-width=".7" d="M12.00 8.60L12.00 4.20 M9.05 2.06L14.20 1.97 M14.95 2.06L9.80 1.97 M15.23 10.95L19.42 9.59 M20.54 6.12L22.22 10.99 M22.37 11.73L20.86 6.81 M14.00 14.75L16.58 18.31 M20.23 18.31L16.11 21.41 M15.46 21.78L19.67 18.82 M10.00 14.75L7.42 18.31 M8.54 21.78L4.33 18.82 M3.77 18.31L7.89 21.41 M8.77 10.95L4.58 9.59 M1.63 11.73L3.14 6.81 M3.46 6.12L1.78 10.99"/></g><circle cx="12" cy="12" r="11" fill="url(#cbshade)"/><circle cx="12" cy="12" r="11" fill="none" stroke="#0a0a0a" stroke-opacity=".5" stroke-width=".8"/></svg></i><i class="c-shadow"></i></div>
+<div class="cursor" aria-hidden="true"><i class="c-dot"></i><i class="c-ring"><b class="c-text" data-i18n="drag">Arraste</b></i><i class="c-arrow"><svg viewBox="0 0 22 24" width="22" height="24"><path d="M3 2 L3 19.2 L7.7 15 L10.7 21.6 L13.6 20.3 L10.6 13.8 L16.9 13.6 Z"/></svg></i><b class="c-tag"><span class="c-tag-t">Você</span></b></div>
 
 <header class="nav" id="nav">
   <div class="cap cap-left glass">
@@ -52,7 +52,7 @@
       <button data-lang="en" aria-label="English" data-hover><svg class="flag" viewBox="0 0 28 28" aria-hidden="true"><clipPath id="cus"><circle cx="14" cy="14" r="14"/></clipPath><g clip-path="url(#cus)"><rect width="28" height="28" fill="#fff"/><g fill="#b22234"><rect y="0" width="28" height="2.15"/><rect y="4.3" width="28" height="2.15"/><rect y="8.6" width="28" height="2.15"/><rect y="12.9" width="28" height="2.15"/><rect y="17.2" width="28" height="2.15"/><rect y="21.5" width="28" height="2.15"/><rect y="25.8" width="28" height="2.2"/></g><rect width="13" height="15" fill="#3c3b6e"/><g fill="#fff"><circle cx="3" cy="3" r=".8"/><circle cx="6.5" cy="3" r=".8"/><circle cx="10" cy="3" r=".8"/><circle cx="4.7" cy="6" r=".8"/><circle cx="8.2" cy="6" r=".8"/><circle cx="3" cy="9" r=".8"/><circle cx="6.5" cy="9" r=".8"/><circle cx="10" cy="9" r=".8"/><circle cx="4.7" cy="12" r=".8"/><circle cx="8.2" cy="12" r=".8"/></g></g></svg><span>EN</span></button>
       <i class="lang-pill"></i>
     </div>
-    <a href="https://canelada.app.br" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-hover data-magnet><span data-i18n="nav.open">Entrar</span></a>
+    <a href="https://canelada.app.br" class="btn btn-primary btn-sm" target="_blank" rel="noopener" data-hover data-magnet data-cur="play"><span data-i18n="nav.open">Entrar</span></a>
   </div>
 </header>
 <div class="progress" aria-hidden="true"><i id="progress"></i></div>
@@ -72,7 +72,7 @@
         <h1 data-show="-2,-1,.06,.4" data-split data-i18n="hero.title">O baba virou resenha.</h1>
         <p class="hero-sub" data-show="-2,-1,.08,.35" data-i18n="hero.sub">Depois do jogo, a galera vota em quem foi o craque, o paredão e o bagre da noite. Os votos viram ranking, medalha e assunto pra semana inteira.</p>
         <div class="hero-ctas" data-show="-2,-1,.08,.35">
-          <a href="https://canelada.app.br" class="btn btn-primary" target="_blank" rel="noopener" data-hover data-magnet><span data-i18n="hero.cta1">Abrir o Canelada</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="https://canelada.app.br" class="btn btn-primary" target="_blank" rel="noopener" data-hover data-magnet data-cur="play"><span data-i18n="hero.cta1">Abrir o Canelada</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a href="#how" class="btn btn-secondary" data-hover><span data-i18n="hero.cta2">Ver como funciona</span></a>
         </div>
       </div>
@@ -326,12 +326,12 @@
   <!-- 8. FINAL -->
   <section id="final" class="sec final">
     <div class="final-bg"><img src="img/pitch-1440.webp" alt="" loading="lazy"></div>
-    <a href="https://canelada.app.br" target="_blank" rel="noopener" class="sticker" aria-hidden="true" tabindex="-1" data-hover><svg viewBox="0 0 120 120"><defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#circ" id="stickerTxt">BORA PRO BABA · CANELADA.APP.BR · </textPath></text></svg><img src="img/logo.webp" alt=""></a>
+    <a href="https://canelada.app.br" target="_blank" rel="noopener" class="sticker" aria-hidden="true" tabindex="-1" data-hover data-cur="play"><svg viewBox="0 0 120 120"><defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#circ" id="stickerTxt">BORA PRO BABA · CANELADA.APP.BR · </textPath></text></svg><img src="img/logo.webp" alt=""></a>
     <div class="final-wrap">
       <span class="tag tag-soft" data-show="-.5,-.2"><i class="pulse"></i><span data-i18n="final.tag">Só por convite</span></span>
       <h2 data-show="-.45,-.1" data-split data-i18n="final.title">Bora pro baba?</h2>
       <p class="body" data-show="-.35,-.05" data-i18n="final.body">Peça o convite pro admin do seu grupo e entre com a sua conta Google.</p>
-      <a href="https://canelada.app.br" class="btn btn-primary btn-lg" target="_blank" rel="noopener" data-show="-.3,0" data-hover data-magnet><span data-i18n="final.cta">Abrir o Canelada</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="https://canelada.app.br" class="btn btn-primary btn-lg" target="_blank" rel="noopener" data-show="-.3,0" data-hover data-magnet data-cur="play"><span data-i18n="final.cta">Abrir o Canelada</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
     <div class="wordmark" aria-hidden="true" id="wordmark"><span>C</span><span>A</span><span>N</span><span>E</span><span>L</span><span>A</span><span>D</span><span>A</span></div>
     <footer class="foot">
