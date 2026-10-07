@@ -887,3 +887,10 @@ body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,r
 .wl-line.t1 .wl-tag svg{fill:#3b82f6;stroke:#0f2a5a}
 .wl-line.gk .wl-tag svg{fill:#f0c86a;stroke:#3a2a08}
 .wl-line.sent .wl-tag{opacity:1;transform:none}
+
+/* hero: capa escura por cima da foto, para a imagem não gritar e o texto respirar (o degradê continua por cima) */
+.hero-shade{background:
+  linear-gradient(180deg,rgba(9,9,9,.85) 0%,rgba(9,9,9,.5) 24%,rgba(9,9,9,.12) 50%,transparent 70%,rgba(9,9,9,.75) 100%),
+  radial-gradient(120% 90% at 50% 60%,transparent 55%,rgba(9,9,9,.45) 100%),
+  rgba(9,9,9,.34)!important}
+body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,rgba(9,9,9,.35) 30%,rgba(9,9,9,.1) 55%,rgba(9,9,9,.65) 85%,var(--bg) 100%)!important}
