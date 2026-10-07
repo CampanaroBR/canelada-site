@@ -852,3 +852,8 @@ body.hero-old .hero-bg img{top:0!important;bottom:auto;width:100%!important;heig
 body.hero-old #hero .float{display:block}
 body.hero-old #hotspots{display:none}
 body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,rgba(9,9,9,.35) 30%,rgba(9,9,9,.1) 55%,rgba(9,9,9,.65) 85%,var(--bg) 100%)!important}
+
+/* caption da galeria: mesma altura em todas as telas (texto centralizado, reserva 2 linhas) */
+.gcap{min-height:0;height:76px}
+.gcap p{line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:640px){.gcap{height:96px}}
