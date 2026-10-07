@@ -54,7 +54,7 @@ const I18N = {
     'medals.progress': 'Seu progresso', 'medals.unlocked': 'Desbloqueadas', 'medals.common': 'Comum', 'medals.rare': 'Rara', 'medals.epic': 'Épica',
     'medals.seq': 'Sequência', 'medals.bagreT': 'Virada de Chave', 'medals.bagreD': 'Foi Bagre numa rodada e craque na seguinte. A melhor resposta é em campo.',
     'draw.eyebrow': 'Sorteio', 'draw.title': 'O sorteio que acabou com a discussão do par ou ímpar', 'draw.body': 'O sorteio usa o overall de cada um pra montar dois times parelhos. O Paneleiro que lute.',
-    'draw.again': 'Sortear de novo', 'draw.teamA': 'Time Vermelho', 'draw.teamB': 'Time Azul', 'draw.avg': 'Média', 'draw.balance': 'Equilíbrio', 'draw.perfect': 'perfeito', 'draw.diff': d => `${d} ${d === 1 ? 'ponto' : 'pontos'} de diferença`, 'draw.gk': 'Goleiro', 'draw.waGroup': 'Baba de quarta ⚽', 'draw.waSub': '32 participantes', 'draw.paste': 'Colou a lista, o app escala',
+    'draw.again': 'Sortear de novo', 'draw.teamA': 'Time Vermelho', 'draw.teamB': 'Time Azul', 'draw.avg': 'Média', 'draw.balance': 'Equilíbrio', 'draw.perfect': 'perfeito', 'draw.diff': d => `${d} ${d === 1 ? 'ponto' : 'pontos'} de diferença`, 'draw.gk': 'Goleiro', 'draw.gkTag': '(goleiro)', 'draw.waGroup': 'Baba de quarta ⚽', 'draw.waSub': '32 participantes', 'draw.paste': 'Colou a lista, o app escala',
     'res.eyebrow': 'Resenha', 'res.title': 'A resenha continua no grupo até a próxima rodada', 'res.body': 'Cada personagem vira um card pronto pro story. E o app avisa todo mundo quando a votação abre e quando sai o resultado.',
     'res.shareDesc': 'Intransponível na defesa. Fechou o gol e salvou o time nos momentos decisivos.', 'res.shareWho': '<em>Caju</em> foi eleito <em>Paredão</em> do jogo por 5 jogadores.',
     'res.share': 'Compartilhar', 'res.shareFoot': '5 VOTOS · PERSONAGEM DA SEMANA',
@@ -98,7 +98,7 @@ const I18N = {
     'medals.progress': 'Your progress', 'medals.unlocked': 'Unlocked', 'medals.common': 'Common', 'medals.rare': 'Rare', 'medals.epic': 'Epic',
     'medals.seq': 'Streak', 'medals.bagreT': 'Turnaround', 'medals.bagreD': 'Catfish one round, star the next. The best reply is on the pitch.',
     'draw.eyebrow': 'Team draw', 'draw.title': 'The team draw that ended the arguments', 'draw.body': 'The draw uses each player’s overall to build two even sides. Sorry, Clique Guy.',
-    'draw.again': 'Draw again', 'draw.teamA': 'Red team', 'draw.teamB': 'Blue team', 'draw.avg': 'Average', 'draw.balance': 'Balance', 'draw.perfect': 'perfect', 'draw.diff': d => `${d} ${d === 1 ? 'point' : 'points'} apart`, 'draw.gk': 'Keeper', 'draw.waGroup': 'Wednesday game ⚽', 'draw.waSub': '32 members', 'draw.paste': 'Paste the list, the app picks the teams',
+    'draw.again': 'Draw again', 'draw.teamA': 'Red team', 'draw.teamB': 'Blue team', 'draw.avg': 'Average', 'draw.balance': 'Balance', 'draw.perfect': 'perfect', 'draw.diff': d => `${d} ${d === 1 ? 'point' : 'points'} apart`, 'draw.gk': 'Keeper', 'draw.gkTag': '(keeper)', 'draw.waGroup': 'Wednesday game ⚽', 'draw.waSub': '32 members', 'draw.paste': 'Paste the list, the app picks the teams',
     'res.eyebrow': 'Banter', 'res.title': 'The jokes keep going in the group chat until the next game', 'res.body': 'Every character becomes a card ready for your story. And the app pings everyone when voting opens and when the results are in.',
     'res.shareDesc': 'Unbeatable at the back. Shut the goal and saved the team when it mattered.', 'res.shareWho': '<em>Caju</em> was voted <em>The Wall</em> by 5 players.',
     'res.share': 'Share', 'res.shareFoot': '5 VOTES · CHARACTER OF THE WEEK',
@@ -324,7 +324,6 @@ function updateMedals(r) {
    ========================================================= */
 const GK = { 7: true, 9: true }; // Pedrão and Dudu keep goal
 const waList = $('#waList'), teamUl = [$('#team0'), $('#team1')];
-waList.innerHTML = PLAYERS.map((p, i) => `<span class="wl-line" data-i="${i}">${i + 1}. ${p.n}${GK[i] ? ' 🧤' : ''}</span>`).join('<br>');
 const pRow = {};
 PLAYERS.forEach((p, i) => {
   const li = document.createElement('li'); li.className = 'trow2'; li.dataset.i = i;
@@ -347,6 +346,8 @@ function balanceTeams(random) {
 }
 /* pitch tokens: each name flies from the WhatsApp list onto the pitch */
 const JERSEY = '<svg viewBox="0 0 32 30" aria-hidden="true"><path d="M11 2 L6 5 L2 9.5 L6.6 11.2 L6.6 27 L25.4 27 L25.4 11.2 L30 9.5 L26 5 L21 2 C20 4.2 18.2 5.2 16 5.2 C13.8 5.2 12 4.2 11 2Z"/></svg>';
+// a lista do grupo continua legível: quem já foi escalado ganha a camisa do time ao lado do nome
+waList.innerHTML = PLAYERS.map((p, i) => `<span class="wl-line" data-i="${i}"><span>${i + 1}. ${p.n}${GK[i] ? ' <em class="wl-gk" data-i18n="draw.gkTag">(goleiro)</em>' : ''}</span><i class="wl-tag" aria-hidden="true">${JERSEY}</i></span>`).join('');
 const dstage = $('#dstage'), dpitch = $('#dpitch'), drawx = $('#drawx');
 // formation per side, x/y as fraction of the pitch (left side; right side mirrors x)
 const FORM = [[.075, .5], [.21, .27], [.21, .73], [.37, .36], [.37, .64]];
@@ -365,7 +366,6 @@ function updateDrawFlow(dt) {
   const p = drawPlay.p;
   const W = pr.width, H = pr.height, js = clamp(W / 18, 30, 52);
   tokens.forEach(t => {
-    const src = waList.children[t.i * 2] || waList.querySelector(`[data-i="${t.i}"]`);
     const line = waList.querySelector(`[data-i="${t.i}"]`).getBoundingClientRect();
     const [team, k] = t.slot, f = FORM[k], fx = team ? 1 - f[0] : f[0];
     const tx = pr.left - box.left + fx * W, ty = pr.top - box.top + f[1] * H;
@@ -380,7 +380,7 @@ function updateDrawFlow(dt) {
     t.el.style.transform = `translate3d(${t.x}px,${t.y}px,0) translate(-50%,-50%) scale(${lerp(.55, 1, kk)})`;
     t.el.style.opacity = kk > .02 ? 1 : 0;
     t.el.classList.toggle('t1', team === 1); t.el.classList.toggle('gk', !!GK[t.i]); t.el.classList.toggle('landed', kk > .96);
-    waList.querySelector(`[data-i="${t.i}"]`).classList.toggle('sent', kk > .5);
+    const wl = waList.querySelector(`[data-i="${t.i}"]`); wl.classList.toggle('sent', kk > .5); wl.classList.toggle('t1', team === 1); wl.classList.toggle('gk', !!GK[t.i]);
   });
 }
 let drawResult = null;
