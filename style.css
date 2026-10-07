@@ -920,3 +920,9 @@ body.hero-old .hero-shade{background:linear-gradient(180deg,rgba(9,9,9,.82) 0%,r
 /* hero: o bloco de texto deixa o mouse passar para os personagens (a águia fica atrás dele); só links e botões capturam */
 .hero-copy{pointer-events:none}
 .hero-copy a,.hero-copy button{pointer-events:auto}
+
+/* sorteio: campo de verdade (Gemini, visto de cima) com gols, redes, escanteios e laterais; as linhas desenhadas saem */
+.dpitch{background:#0d1a0e url("img/campo-2000.webp") center/100% 100% no-repeat!important}
+@media (max-width:900px){.dpitch{background-image:url("img/campo-1200.webp")!important}}
+.dpitch .dlines{display:none}
+.dpitch::after{background:radial-gradient(80% 70% at 50% 45%,transparent 60%,rgba(0,0,0,.25))!important}

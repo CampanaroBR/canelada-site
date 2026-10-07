@@ -350,7 +350,8 @@ const JERSEY = '<svg viewBox="0 0 32 30" aria-hidden="true"><path d="M11 2 L6 5 
 waList.innerHTML = PLAYERS.map((p, i) => `<span class="wl-line" data-i="${i}"><span>${i + 1}. ${p.n}${GK[i] ? ' <em class="wl-gk" data-i18n="draw.gkTag">(goleiro)</em>' : ''}</span><i class="wl-tag" aria-hidden="true">${JERSEY}</i></span>`).join('');
 const dstage = $('#dstage'), dpitch = $('#dpitch'), drawx = $('#drawx');
 // formation per side, x/y as fraction of the pitch (left side; right side mirrors x)
-const FORM = [[.075, .5], [.21, .27], [.21, .73], [.37, .36], [.37, .64]];
+// posições medidas nas linhas do campo do Gemini (gol .084, pequena área .128, grande área .219, laterais .077/.942)
+const FORM = [[.106, .5], [.25, .29], [.25, .71], [.39, .38], [.39, .62]];
 const tokens = PLAYERS.map((p, i) => {
   const el = document.createElement('div'); el.className = 'tok';
   el.innerHTML = `<i class="tok-j">${JERSEY}<span>${p.ovr}</span></i><b class="tok-n">${p.n}</b>`;
